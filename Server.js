@@ -39,10 +39,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Debug middleware to log all requests
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
-  next();
-});
+app.use(cors({
+  origin: [
+    'https://healthpal-client.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Add a development route handler to log attempts to access routes that don't exist
 if (process.env.NODE_ENV === 'development') {
