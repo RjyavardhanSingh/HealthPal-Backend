@@ -33,6 +33,7 @@ const notificationController = require('./controllers/notificationController');
 const verificationRoutes = require('./routes/verificationRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const videoRoutes = require('./routes/videoRoutes');
+const aiRoutes = require('./routes/aiRoutes')
 
 // Middleware
 app.use(express.json());
@@ -93,6 +94,7 @@ app.use('/api/verification', verificationRoutes);
 app.use('/api', verificationRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/video', videoRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Socket.io connection handler
 io.on('connection', (socket) => {
