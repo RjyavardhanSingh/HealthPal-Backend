@@ -39,15 +39,15 @@ const aiRoutes = require('./routes/aiRoutes')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Single CORS configuration 
+// Update your CORS configuration if needed
 app.use(cors({
   origin: [
-    'https://health-pal-frontend.vercel.app',  // Production frontend
-    'http://localhost:5173',                // Vite dev server
-    'http://localhost:3000',                // Alternative local port
-    'http://127.0.0.1:5173',                // Alternative local address
-    'https://healthpal.vercel.app',         // If you use this domain
-    '*'                                     // Allow all origins for testing (remove in production)
+    'https://health-pal-frontend.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+    'https://healthpal.vercel.app',
+    // Add your current frontend domain if it's not listed above
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true,

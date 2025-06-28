@@ -8,7 +8,7 @@ const Person = require('../models/Person');
 const admin = require('../config/firebase-admin');
 const jwt = require('jsonwebtoken');
 
-// Public routes
+// Public routes (no authentication required)
 router.post('/register', authController.register);
 router.post('/register-google', authController.registerGoogle);
 // Make sure this route is BEFORE the protect middleware
