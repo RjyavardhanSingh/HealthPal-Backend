@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"No tests specified\"",
     "start": "node Server.js",
-    "dev": "nodemon Server.js"
+    "dev": "nodemon Server.js",
+    "build": "echo \"No build step required\""
   },
   "keywords": [
     "healthcare",
