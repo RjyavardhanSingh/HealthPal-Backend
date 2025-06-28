@@ -16,43 +16,27 @@ const io = socketIo(server, {
 });
 const PORT = process.env.PORT || 5000;
 
-// Import routes
-const authRoutes = require('./routes/authRoutes');
-const uploadRoutes = require('./routes/uploadRoutes');
-const doctorRoutes = require('./routes/doctorRoutes');
-const appointmentRoutes = require('./routes/appointmentRoutes');
-const medicalRecordRoutes = require('./routes/medicalRecordRoutes');
-const prescriptionRoutes = require('./routes/prescriptionRoutes');
-const consultationRoutes = require('./routes/consultationRoutes');
-const patientRoutes = require('./routes/patientRoutes');
-const reminderRoutes = require('./routes/reminderRoutes');
-const fileRoutes = require('./routes/fileRoutes');
-const medicationRoutes = require('./routes/medicationRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
-const notificationController = require('./controllers/notificationController');
-const verificationRoutes = require('./routes/verificationRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
-const videoRoutes = require('./routes/videoRoutes');
-const aiRoutes = require('./routes/aiRoutes')
+// Update your CORS configuration to be more permissive during development
+
+// CORS configuration - must be first
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+// Use the cors middleware with options
+app.use(cors(corsOptions));
+
+// Keep this handler for explicit OPTIONS requests
+app.options('*', cors(corsOptions));
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Update your CORS configuration if needed
-app.use(cors({
-  origin: [
-    'https://health-pal-frontend.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'http://127.0.0.1:5173',
-    'https://healthpal.vercel.app',
-    // Add your current frontend domain if it's not listed above
-  ],
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 // Add a development route handler to log attempts to access routes that don't exist
 if (process.env.NODE_ENV === 'development') {
@@ -77,6 +61,32 @@ app.get('/', (req, res) => {
   res.send('HealthPal API is running...');
 });
 
+// Test endpoint for CORS
+app.get('/api/test-cors', (req, res) => {
+  console.log('CORS test endpoint hit');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.json({ success: true, message: 'CORS is working!' });
+});
+
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const medicalRecordRoutes = require('./routes/medicalRecordRoutes');
+const prescriptionRoutes = require('./routes/prescriptionRoutes');
+const consultationRoutes = require('./routes/consultationRoutes');
+const patientRoutes = require('./routes/patientRoutes');
+const reminderRoutes = require('./routes/reminderRoutes');
+const fileRoutes = require('./routes/fileRoutes');
+const medicationRoutes = require('./routes/medicationRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const notificationController = require('./controllers/notificationController');
+const verificationRoutes = require('./routes/verificationRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const videoRoutes = require('./routes/videoRoutes');
+const aiRoutes = require('./routes/aiRoutes')
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/uploads', uploadRoutes);
@@ -91,7 +101,6 @@ app.use('/api/files', fileRoutes);
 app.use('/api/medications', medicationRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/verification', verificationRoutes);
-app.use('/api', verificationRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/video', videoRoutes);
 app.use('/api/ai', aiRoutes);
